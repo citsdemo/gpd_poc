@@ -34,4 +34,24 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 		<property name="prefix" value="/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
+
+	 <bean id="httpClient" class="org.apache.http.impl.client.DefaultHttpClient">
+	        <constructor-arg>
+	            <bean class="org.apache.http.impl.conn.PoolingClientConnectionManager"/>
+	        </constructor-arg>
+    </bean>
+
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+      	<constructor-arg>
+            <bean class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory">
+                <constructor-arg ref="httpClient"/>
+            </bean>
+        </constructor-arg>    
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
+	
 </beans>

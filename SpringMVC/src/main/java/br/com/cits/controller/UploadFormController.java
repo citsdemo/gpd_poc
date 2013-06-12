@@ -1,24 +1,35 @@
 package br.com.cits.controller;
 
+import java.awt.Event;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.sun.xml.internal.fastinfoset.stax.events.EventBase;
+
+import foo.model.Funcionario;
+import foo.model.FuncionarioRequest;
+import foo.model.FuncionarioResponse;
+
 import br.com.cits.support.ReadXMLFile;
+import br.com.cits.web.EmployedForm;
 import br.com.cits.web.UploadForm;
 
 @Controller
@@ -27,6 +38,9 @@ public class UploadFormController implements HandlerExceptionResolver{
 	
 	@SuppressWarnings("unused")
 	private UploadForm myCurrentForm = new UploadForm();
+	
+	@Autowired
+	private RestTemplate restTemplate;
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public String showForm(ModelMap model){
@@ -67,6 +81,28 @@ public class UploadFormController implements HandlerExceptionResolver{
 	
 	@RequestMapping(value = "/importar",method=RequestMethod.POST)
 	public String sendImportToRest(){
+		FuncionarioResponse response;	
+		FuncionarioResponse [] funcionarios;
+		try {
+			
+			for (EmployedForm emp : myCurrentForm.getEmployedFormList()) {
+				FuncionarioRequest funcionario2 = new FuncionarioRequest();
+				
+				funcionario2.setFirstName(emp.getFirstName());
+				funcionario2.setSalary(emp.getSalary().toString());			
+				funcionario2.setLastName(emp.getLastName());
+				funcionario2.setNickName(emp.getNickname());
+				
+				response = restTemplate.postForObject("http://gpd-server-cbmnpwr4xq.elasticbeanstalk.com/service/rest/funcionario", funcionario2, FuncionarioResponse.class);
+				
+			}			
+
+			funcionarios = restTemplate.getForObject("http://gpd-server-cbmnpwr4xq.elasticbeanstalk.com/service/rest/funcionario/list", FuncionarioResponse[].class);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 		
 		//return ReadXMLFile.getAllNodes(form.getFile());
 		System.out.println("to rest");
@@ -83,6 +119,14 @@ public class UploadFormController implements HandlerExceptionResolver{
         }
         model.put("fileUploadForm", new UploadForm());
         return new ModelAndView("/FileUploadForm", (Map) model);
+	}
+
+	public RestTemplate getRestTemplate() {
+		return restTemplate;
+	}
+
+	public void setRestTemplate(RestTemplate restTemplate) {
+		this.restTemplate = restTemplate;
 	}
 	
 }
