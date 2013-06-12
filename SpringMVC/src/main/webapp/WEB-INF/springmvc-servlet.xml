@@ -28,7 +28,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     </bean>		
  	 	
 	<!-- Resolves view names to protected .jsp resources within the /WEB-INF/views directory -->
-	<context:component-scan base-package="br.com.cits" />
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/jsp/" />
