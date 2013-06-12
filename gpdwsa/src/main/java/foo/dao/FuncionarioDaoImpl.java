@@ -37,10 +37,11 @@ public class FuncionarioDaoImpl implements FuncionarioDao {
 	public Funcionario getById(Long id) {
 		return entityManager.find(Funcionario.class, id);		
 	}
-	
-	
-	
-	
+
+	@Override
+	public void remover(Long id) {	
+		entityManager.detach(entityManager.find(Funcionario.class, id));
+	}
 	
 
 }
