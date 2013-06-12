@@ -24,6 +24,7 @@ public class FuncionarioResponse {
 		this.id = funcionario.getId();
 		this.nickname = funcionario.getNickname();
 		this.salary = funcionario.getSalary();
+		this.lastname = funcionario.getLastname();
 		
 	}
 
