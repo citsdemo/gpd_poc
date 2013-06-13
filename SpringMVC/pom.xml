@@ -11,7 +11,21 @@
 	<properties>
 		<org.springframework.version>3.1.4.RELEASE</org.springframework.version>
 	</properties>
-
+	
+	<repositories>
+		<repository>  
+		    <id>prime-repo</id>  
+		    <name>PrimeFaces Maven Repository</name>  
+		    <url>http://repository.primefaces.org</url>  
+		    <layout>default</layout>  
+		</repository>  	
+		<repository>
+		  <id>jvnet-nexus-releases</id>
+		  <name>jvnet-nexus-releases</name>
+		  <url>https://maven.java.net/content/repositories/releases/</url>
+		</repository>		
+	</repositories>
+	
 	<dependencies>
 
 		<!-- Core utilities used by other modules. Define this if you use Spring 
@@ -92,6 +106,24 @@
 		</dependency>
 
 		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+		</dependency>
+
+		<dependency>
+		  <groupId>javax.faces</groupId>
+		  <artifactId>javax.faces-api</artifactId>
+		  <version>2.1</version>
+		</dependency>
+
+		<dependency>
+		  <groupId>org.glassfish</groupId>
+		  <artifactId>javax.faces</artifactId>
+		  <version>2.1.9</version>
+		</dependency>
+				
+		<dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
 			<version>1.1.2</version>
@@ -109,6 +141,15 @@
 			<artifactId>httpclient</artifactId>
 			<version>4.2.5</version>
 		</dependency>
+
+		<dependency>  
+		    <groupId>org.primefaces</groupId>  
+		    <artifactId>primefaces</artifactId>  
+		    <version>3.5</version>  
+		</dependency> 
+
+
+		
 	</dependencies>
 	<build>
 		<finalName>mvc</finalName>
