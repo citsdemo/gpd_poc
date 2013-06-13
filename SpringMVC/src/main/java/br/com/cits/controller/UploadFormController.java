@@ -100,8 +100,8 @@ public class UploadFormController implements HandlerExceptionResolver{
 			funcionarios = restTemplate.getForObject("http://gpd-server-cbmnpwr4xq.elasticbeanstalk.com/service/rest/funcionario/list", FuncionarioResponse[].class);
 			
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
+			return "Erro";
 		}
 		
 		//return ReadXMLFile.getAllNodes(form.getFile());
