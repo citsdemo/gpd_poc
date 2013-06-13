@@ -1,10 +1,8 @@
 package br.com.cits.controller;
 
-import java.awt.Event;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,21 +20,16 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.sun.xml.internal.fastinfoset.stax.events.EventBase;
-
-import foo.model.Funcionario;
-import foo.model.FuncionarioRequest;
-import foo.model.FuncionarioResponse;
-
 import br.com.cits.support.ReadXMLFile;
 import br.com.cits.web.EmployedForm;
 import br.com.cits.web.UploadForm;
+import foo.model.FuncionarioRequest;
+import foo.model.FuncionarioResponse;
 
 @Controller
 @RequestMapping(value="/FileUploadForm")
 public class UploadFormController implements HandlerExceptionResolver{
 	
-	@SuppressWarnings("unused")
 	private UploadForm myCurrentForm = new UploadForm();
 	
 	@Autowired
