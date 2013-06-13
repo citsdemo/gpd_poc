@@ -1,10 +1,8 @@
 package br.com.cits.controller;
 
-import java.awt.Event;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,21 +20,16 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.sun.xml.internal.fastinfoset.stax.events.EventBase;
-
-import foo.model.Funcionario;
-import foo.model.FuncionarioRequest;
-import foo.model.FuncionarioResponse;
-
 import br.com.cits.support.ReadXMLFile;
 import br.com.cits.web.EmployedForm;
 import br.com.cits.web.UploadForm;
+import foo.model.FuncionarioRequest;
+import foo.model.FuncionarioResponse;
 
 @Controller
 @RequestMapping(value="/FileUploadForm")
 public class UploadFormController implements HandlerExceptionResolver{
 	
-	@SuppressWarnings("unused")
 	private UploadForm myCurrentForm = new UploadForm();
 	
 	@Autowired
@@ -93,20 +86,17 @@ public class UploadFormController implements HandlerExceptionResolver{
 				funcionario2.setLastName(emp.getLastName());
 				funcionario2.setNickName(emp.getNickname());
 				
-				response = restTemplate.postForObject("http://gpd-server-cbmnpwr4xq.elasticbeanstalk.com/service/rest/funcionario", funcionario2, FuncionarioResponse.class);
+				response = restTemplate.postForObject("http://localhost:8080/gpdwsa/service/rest/funcionario", funcionario2, FuncionarioResponse.class);
 				
 			}			
 
-			funcionarios = restTemplate.getForObject("http://gpd-server-cbmnpwr4xq.elasticbeanstalk.com/service/rest/funcionario/list", FuncionarioResponse[].class);
+			funcionarios = restTemplate.getForObject("http://localhost:8080/gpdwsa/service/rest/funcionario/list", FuncionarioResponse[].class);
+			return "Success";
 			
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
-		}
-		
-		//return ReadXMLFile.getAllNodes(form.getFile());
-		System.out.println("to rest");
-		return "Success";
+			return "Error";
+		}		
 	}	
 	
 	public ModelAndView resolveException(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, Exception exception) {

@@ -3,8 +3,6 @@ package foo.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import foo.model.Funcionario;
-
 
 public class FuncionarioResponse implements Serializable {
 	
