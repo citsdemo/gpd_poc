@@ -25,10 +25,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <!-- one of the properties available; the maximum file size in bytes -->
         <property name="maxUploadSize" value="100000"/>
-    </bean>		
- 	 	
-	<!-- Resolves view names to protected .jsp resources within the /WEB-INF/views directory -->
-	<context:component-scan base-package="br.com.cits" />
+    </bean>
+    
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/jsp/" />
