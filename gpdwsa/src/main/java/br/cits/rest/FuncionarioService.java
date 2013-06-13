@@ -1,8 +1,11 @@
 package br.cits.rest;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -42,12 +45,16 @@ public class FuncionarioService {
 	
 	
 	@RequestMapping(method=RequestMethod.GET,value="{id}")	
-	public @ResponseBody FuncionarioResponse getById(@PathVariable long id){
+	public @ResponseBody FuncionarioResponse getById(@PathVariable long id , HttpServletResponse response) throws IOException{
 		
 		Funcionario func = funcionarioDao.getById(id);
 		if(func != null){
 			
 			return new FuncionarioResponse(func);
+		}else{
+		
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			
 		}
 		return null;
 	}
@@ -55,6 +62,22 @@ public class FuncionarioService {
 	@RequestMapping(method=RequestMethod.POST)
 	@ResponseBody	
 	public FuncionarioResponse cadastrar(@RequestBody FuncionarioRequest funcionarioReq){
+		
+		FuncionarioResponse response = new FuncionarioResponse(cadastrarFuncionario(funcionarioReq));
+		
+		return response;
+		
+	}
+	
+	@RequestMapping(method=RequestMethod.DELETE,value="{id}")		
+	@ResponseBody
+	public void remover(@PathVariable long id){
+	
+		funcionarioDao.remover(id);
+	}
+	
+	private Funcionario cadastrarFuncionario(FuncionarioRequest funcionarioReq){
+		
 		Funcionario funcionario = new Funcionario();
 		funcionario.setId(funcionarioReq.getId());
 		funcionario.setFirstname(funcionarioReq.getLastName());
@@ -64,7 +87,18 @@ public class FuncionarioService {
 		
 		funcionario = funcionarioDao.save(funcionario);
 		
-		return new FuncionarioResponse(funcionario);
+		return funcionario;
+		
+	}
+	
+	
+	@RequestMapping(method=RequestMethod.PUT)
+	@ResponseBody	
+	public FuncionarioResponse updateFuncionario(@RequestBody FuncionarioRequest funcionarioReq){
+		
+		FuncionarioResponse response = new FuncionarioResponse(cadastrarFuncionario(funcionarioReq));
+		
+		return response;
 		
 	}
 	
